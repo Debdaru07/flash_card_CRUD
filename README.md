@@ -1,16 +1,15 @@
-# flash_card_qna
+# Flash Card Application
 
-A new Flutter project.
+This **Flash Card Application** is designed to help users learn and revise using customizable flashcards with a Question and Answer (QnA) format. The app is built with Flutter, leveraging **Provider** for state management to ensure efficient and scalable data handling.
+
+## Features
+
+- **Add, Edit, Delete, and View Flashcards**: Users can create new flashcards, modify existing ones, remove unwanted cards, and view the complete list of cards.
+- **Pre-populated Data**: Edit functionality is enhanced with pre-filled fields to allow easy updates without starting from scratch.
+- **Form Validation**: All input fields are validated to ensure data consistency and accuracy.
+- **State Management with Provider**: Efficient and scalable state management for dynamic updates across the app.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone this repository:  
+   git clone https://github.com/yourusername/flashcard-app.git
