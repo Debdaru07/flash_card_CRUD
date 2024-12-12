@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,16 +39,22 @@ class _QnAViewState extends State<QnAView> {
               child: PageView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: formHandler.cardItems.length,
-                itemBuilder: (context, index) => QuestionCard(index: index,item: formHandler.cardItems[index],),
+                itemBuilder: (context, index) {
+                  try {
+                    return QuestionCard(index: index,item: formHandler.cardItems[index],);
+                  } catch(obj) {
+                    return const Center(child: Text('Item Deleted'));
+                  }
+                },
                 pageSnapping: true,
               ),
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              var data = Navigator.push(context, MaterialPageRoute( builder: (context) => QnAForm(),));
+            onPressed: () async {
+              var data = await Navigator.push(context, MaterialPageRoute( builder: (context) => QnAForm(),));
               if(data!= null){
-                
+                await formHandler.initFields9();
               }
             },
             child: const Icon(Icons.add),
@@ -115,49 +123,89 @@ Widget answerFlashCard(int index, QNAModel item) {
 }
 
 Widget eachFlashCard(context,int index, QNAModel item) {
-  return Card(
-    elevation: 5,
-    color: Colors.amber[50],
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Question ${index + 1}', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18, color: Colors.grey[400]),),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => QnAForm(item: item,),),);
-                    },
-                    child: const Icon(Icons.edit, color: Colors.blue,size: 20,)),
-                  const SizedBox(width: 10,),
-                  InkWell(
-                    onTap: () {
-
-                    },
-                    child: const Icon(Icons.delete, color: Colors.red,size: 20,)),
-                ],
-              )
-            ],
+  return Consumer<FormHandler>(
+    builder: (context, formHandler, child) => Card(
+      elevation: 5,
+      color: Colors.amber[50],
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Question ${index + 1}', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18, color: Colors.grey[400]),),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => QnAForm(item: item,),),);
+                      },
+                      child: const Icon(Icons.edit, color: Colors.blue,size: 20,)),
+                    const SizedBox(width: 10,),
+                    InkWell(
+                      onTap: () {
+                        showDeleteConfirmationDialog(context, item: item);
+                      },
+                      child: const Icon(Icons.delete, color: Colors.red,size: 20,)),
+                  ],
+                )
+              ],
+            ),
+            const Spacer(flex: 1,),
+            Text(item.question, style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.amber[700]), maxLines: 3,),
+            const Spacer(flex: 3,),
+            Text('Tap to reveal answer', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.grey[500]),),
+            const Spacer(flex: 1,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('<<<   Swipe to see other questions   >>>', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey[500]),),
+              ],
+            ),
+          ],
+        ),
+      ),
+    )
+  );
+}
+void showDeleteConfirmationDialog(BuildContext context, {required QNAModel item}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        title: const Text(
+          'Confirm Delete',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: const Text('Are you sure you want to delete this item?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
           ),
-          const Spacer(flex: 1,),
-          Text(item.question, style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.amber[700]), maxLines: 3,),
-          const Spacer(flex: 3,),
-          Text('Tap to reveal answer', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, color: Colors.grey[500]),),
-          const Spacer(flex: 1,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('<<<   Swipe to see other questions   >>>', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey[500]),),
-            ],
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              final formHandler = Provider.of<FormHandler>(context, listen: false);
+              Future.delayed(Duration.zero, () async {
+                await formHandler.deleteItem(context,qa: item);
+              });
+            },
+            child: const Text('Delete'),
           ),
         ],
-      ),
-    ),
+      );
+    },
   );
 }

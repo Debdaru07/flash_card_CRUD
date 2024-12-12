@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(useMaterial3: true,),
+        theme: ThemeData(useMaterial3: false,),
         home: const QnAView(), 
       ),
     );

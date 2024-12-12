@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void showCustomSnackbar(BuildContext context, {required String text, bool isSuccess = true} ) async {
+void showCustomSnackbar(BuildContext context, {required String text, bool isSuccess = true, bool isDelete = false} ) async {
     final snackbar = SnackBar(
       content: SizedBox(
         height: 60,
@@ -29,7 +29,9 @@ void showCustomSnackbar(BuildContext context, {required String text, bool isSucc
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
     if(isSuccess){
       Future.delayed(snackbar.duration, () {
-        Navigator.pop(context, true);
+        if(isDelete == false) {
+          Navigator.pop(context, true);
+        }
       });
     }
 

@@ -28,26 +28,30 @@ class FormHandler with ChangeNotifier{
     notifyListeners();
   }
 
+  deleteItem(context,{required QNAModel qa}){
+    returnQuestions.removeAt(returnQuestions.indexOf(qa));
+    showCustomSnackbar(context, text: 'Removed successfully',isSuccess: true, isDelete: true);
+  }
+
   void applyFunc(context,{QNAModel? qa}) {
     if(question.text.isEmpty) {
       showCustomSnackbar(context, text: 'Question is a required field',isSuccess: false);
     } else if(answer.text.isEmpty) {
       showCustomSnackbar(context, text: 'Answer is a required field',isSuccess: false);
     } else {
-      // Show Success Message
       if(qa == null) {
         returnQuestions.add(QNAModel(question: question.text,answer: answer.text));
+        notifyListeners();
         showCustomSnackbar(context, text: 'Added successfully',isSuccess: true);
-        
       } else {
         int index = returnQuestions.indexWhere((item) => item.question == qa.question);
         if (index != -1) {
-          List<QNAModel> updatedItems = List.from(returnQuestions);
-          updatedItems[index] = qa;
-          returnQuestions = updatedItems;
+          // List<QNAModel> updatedItems = List.from(returnQuestions);
+          returnQuestions[index] = QNAModel(question: question.text,answer: answer.text); // QNAModel(question: question.text,answer: answer.text);
+          // returnQuestions = updatedItems;
         }
-        showCustomSnackbar(context, text: 'Updated successfully',isSuccess: true);
         notifyListeners();
+        showCustomSnackbar(context, text: 'Updated successfully',isSuccess: true);
       }
     }  
   }
