@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../model/qna_model.dart';
+import 'populate_data.dart';
 
 class FormHandler with ChangeNotifier{
-  List<QNAModel> _cardItems = [];
+  List<QNAModel> _cardItems = returnQuestions;
   List<QNAModel> get cardItems => _cardItems;
 
   final TextEditingController question = TextEditingController();
@@ -15,14 +16,24 @@ class FormHandler with ChangeNotifier{
     notifyListeners();
   }
 
-  void applyFunc() {
+  void applyFunc({QNAModel? qa}) {
     if(question.text.isEmpty) {
       // Error, Question is needed
     } else if(answer.text.isEmpty) {
       // Error, Answer is needed
     } else {
       // Show Success Message
-      _cardItems.add(QNAModel(question: question.text,answer: answer.text));
+      if(qa == null) {
+        _cardItems.add(QNAModel(question: question.text,answer: answer.text));
+      } else {
+        int index = _cardItems.indexWhere((item) => item.question == qa.question);
+        if (index != -1) {
+          List<QNAModel> updatedItems = List.from(_cardItems);
+          updatedItems[index] = qa;
+          _cardItems = updatedItems;
+          notifyListeners();
+        }
+      }
     }
   }
 
@@ -30,17 +41,5 @@ class FormHandler with ChangeNotifier{
    _cardItems.clear(); 
     notifyListeners();
   }
-
-  init5RandomQnAs(){
-    _cardItems = [
-      QNAModel(question: "What is the capital of India?", answer: "New Delhi"),
-      QNAModel(question: "What is the largest country in the world by land area?", answer: "Russia"),
-      QNAModel(question: "What is the tallest land animal?", answer: "Giraffe"),
-      QNAModel(question: "What is the fastest land animal?", answer: "Cheetah"),
-      QNAModel(question: "What is the largest organ in the human body?", answer: "Liver"),
-      QNAModel(question: "What is the smallest country in the world?", answer: "Vatican City"),
-      QNAModel(question: "What is the largest ocean in the world?", answer: "Pacific Ocean")
-    ];
-  }
- 
+  
 }

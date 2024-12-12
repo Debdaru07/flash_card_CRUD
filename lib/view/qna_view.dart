@@ -21,7 +21,7 @@ class _QnAViewState extends State<QnAView> {
   void initState() {
     super.initState();
     formHandler = Provider.of<FormHandler>(context, listen: false);
-    formHandler.init5RandomQnAs();
+    // formHandler.init5RandomQnAs();
   }
 
   @override
@@ -134,12 +134,7 @@ Widget eachFlashCard(context,int index, QNAModel item) {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QnAForm(item: item,),
-                        ),
-                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => QnAForm(item: item,),),);
                     },
                     child: const Icon(Icons.edit, color: Colors.blue,size: 20,)),
                   const SizedBox(width: 10,),
