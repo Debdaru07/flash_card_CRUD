@@ -44,6 +44,34 @@ class _QnAFormState extends State<QnAForm> {
               )
             ],
           ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    formHandler.resetFields();
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red,),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("Reset",style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    formHandler.applyFunc();
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 3, 73, 130),),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.item == null ? "Save" : "Update", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
