@@ -21,7 +21,6 @@ class _QnAViewState extends State<QnAView> {
   void initState() {
     super.initState();
     formHandler = Provider.of<FormHandler>(context, listen: false);
-    // formHandler.init5RandomQnAs();
   }
 
   @override

@@ -14,6 +14,25 @@ class QnAForm extends StatefulWidget {
 }
 
 class _QnAFormState extends State<QnAForm> {
+  late FormHandler formHandler;
+
+  @override
+  void initState() {
+    formHandler = Provider.of<FormHandler>(context, listen: false);
+    if(widget.item != null){
+      Future.delayed(Duration.zero, () async {
+        await formHandler.initializeItemsForUpdate(widget.item);
+      }); 
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    formHandler.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,7 +80,7 @@ class _QnAFormState extends State<QnAForm> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    formHandler.applyFunc();
+                    formHandler.applyFunc(qa: widget.item);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 3, 73, 130),),
                   child: Padding(

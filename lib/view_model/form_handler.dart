@@ -16,6 +16,17 @@ class FormHandler with ChangeNotifier{
     notifyListeners();
   }
 
+  void dispose() {
+    question.clear();
+    answer.clear();
+  }
+
+  initializeItemsForUpdate(QNAModel? item) {
+    question.text = item?.question ?? '';
+    answer.text = item?.answer ?? '';
+    notifyListeners();
+  }
+
   void applyFunc({QNAModel? qa}) {
     if(question.text.isEmpty) {
       // Error, Question is needed
