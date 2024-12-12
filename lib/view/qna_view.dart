@@ -21,6 +21,7 @@ class _QnAViewState extends State<QnAView> {
   void initState() {
     super.initState();
     formHandler = Provider.of<FormHandler>(context, listen: false);
+    Future.delayed(Duration.zero, () async => await formHandler.initFields9()); 
   }
 
   @override
@@ -43,12 +44,10 @@ class _QnAViewState extends State<QnAView> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QnAForm(),
-                ),
-              );
+              var data = Navigator.push(context, MaterialPageRoute( builder: (context) => QnAForm(),));
+              if(data!= null){
+                
+              }
             },
             child: const Icon(Icons.add),
           ),

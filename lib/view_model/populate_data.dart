@@ -1,6 +1,6 @@
 import '../model/qna_model.dart';
 
-get returnQuestions => [
+var returnQuestions = [
   QNAModel(question: "What is the capital of India?", answer: "New Delhi"),
   QNAModel(question: "What is the largest country in the world by land area?", answer: "Russia"),
   QNAModel(question: "What is the tallest land animal?", answer: "Giraffe"),

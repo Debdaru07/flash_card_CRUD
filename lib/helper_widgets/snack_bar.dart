@@ -29,7 +29,7 @@ void showCustomSnackbar(BuildContext context, {required String text, bool isSucc
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
     if(isSuccess){
       Future.delayed(snackbar.duration, () {
-        Navigator.of(context).pop();
+        Navigator.pop(context, true);
       });
     }
 

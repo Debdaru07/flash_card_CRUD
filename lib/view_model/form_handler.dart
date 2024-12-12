@@ -5,7 +5,7 @@ import '../model/qna_model.dart';
 import 'populate_data.dart';
 
 class FormHandler with ChangeNotifier{
-  List<QNAModel> _cardItems = returnQuestions;
+  List<QNAModel> _cardItems = [];
   List<QNAModel> get cardItems => _cardItems;
 
   final TextEditingController question = TextEditingController();
@@ -36,24 +36,29 @@ class FormHandler with ChangeNotifier{
     } else {
       // Show Success Message
       if(qa == null) {
-        _cardItems.add(QNAModel(question: question.text,answer: answer.text));
+        returnQuestions.add(QNAModel(question: question.text,answer: answer.text));
         showCustomSnackbar(context, text: 'Added successfully',isSuccess: true);
         
       } else {
-        int index = _cardItems.indexWhere((item) => item.question == qa.question);
+        int index = returnQuestions.indexWhere((item) => item.question == qa.question);
         if (index != -1) {
-          List<QNAModel> updatedItems = List.from(_cardItems);
+          List<QNAModel> updatedItems = List.from(returnQuestions);
           updatedItems[index] = qa;
-          _cardItems = updatedItems;
-          notifyListeners();
+          returnQuestions = updatedItems;
         }
         showCustomSnackbar(context, text: 'Updated successfully',isSuccess: true);
+        notifyListeners();
       }
-    }
+    }  
   }
 
   initEmpty() {
    _cardItems.clear(); 
+    notifyListeners();
+  }
+
+  initFields9() {
+    _cardItems = returnQuestions;
     notifyListeners();
   }
   

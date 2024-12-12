@@ -105,7 +105,7 @@ class _QnAFormState extends State<QnAForm> {
         children: [
           Text('${widget.item == null ? 'Add' : 'Edit'} Q/A Flash Card', style: const TextStyle(color: Color.fromARGB(255, 3, 73, 130), fontWeight: FontWeight.w600, fontSize: 16),),
           InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () => Navigator.pop(context, null),
             child: const Icon(Icons.cancel_outlined, size: 20, color: Colors.red,))
         ],
       ),
