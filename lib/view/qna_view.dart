@@ -46,7 +46,7 @@ class _QnAViewState extends State<QnAView> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const QnAForm(),
+                  builder: (context) => QnAForm(),
                 ),
               );
             },

@@ -6,8 +6,8 @@ import '../model/qna_model.dart';
 import '../view_model/form_handler.dart';
 
 class QnAForm extends StatefulWidget {
-  final QNAModel? item;
-  const QnAForm({super.key, this.item});
+  QNAModel? item;
+  QnAForm({super.key, this.item});
 
   @override
   State<QnAForm> createState() => _QnAFormState();
@@ -31,6 +31,7 @@ class _QnAFormState extends State<QnAForm> {
   void dispose() {
     super.dispose();
     formHandler.dispose();
+    widget.item = null;
   }
 
   @override
@@ -80,7 +81,7 @@ class _QnAFormState extends State<QnAForm> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    formHandler.applyFunc(qa: widget.item);
+                    formHandler.applyFunc(context,qa: widget.item);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 3, 73, 130),),
                   child: Padding(

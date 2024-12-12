@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../helper_widgets/snack_bar.dart';
 import '../model/qna_model.dart';
 import 'populate_data.dart';
 
@@ -16,7 +17,7 @@ class FormHandler with ChangeNotifier{
     notifyListeners();
   }
 
-  void dispose() {
+  dispose() {
     question.clear();
     answer.clear();
   }
@@ -27,15 +28,17 @@ class FormHandler with ChangeNotifier{
     notifyListeners();
   }
 
-  void applyFunc({QNAModel? qa}) {
+  void applyFunc(context,{QNAModel? qa}) {
     if(question.text.isEmpty) {
-      // Error, Question is needed
+      showCustomSnackbar(context, text: 'Question is a required field',isSuccess: false);
     } else if(answer.text.isEmpty) {
-      // Error, Answer is needed
+      showCustomSnackbar(context, text: 'Answer is a required field',isSuccess: false);
     } else {
       // Show Success Message
       if(qa == null) {
         _cardItems.add(QNAModel(question: question.text,answer: answer.text));
+        showCustomSnackbar(context, text: 'Added successfully',isSuccess: true);
+        
       } else {
         int index = _cardItems.indexWhere((item) => item.question == qa.question);
         if (index != -1) {
@@ -44,6 +47,7 @@ class FormHandler with ChangeNotifier{
           _cardItems = updatedItems;
           notifyListeners();
         }
+        showCustomSnackbar(context, text: 'Updated successfully',isSuccess: true);
       }
     }
   }
