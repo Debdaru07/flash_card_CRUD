@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../helper_widgets/text_formField.dart';
 import '../model/qna_model.dart';
+import '../view_model/form_handler.dart';
 
 class QnAForm extends StatefulWidget {
   final QNAModel? item;
@@ -14,17 +17,35 @@ class _QnAFormState extends State<QnAForm> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
+      child: Consumer<FormHandler>(
+        builder: (context, formHandler, child) => Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ...header,
-              
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+                child: Column(
+                  children: [
+                    buildTextFormField(
+                      controller: formHandler.question,
+                      hintText: widget.item == null ? 'Question' : (widget.item?.question ?? ''),
+                      labelText: widget.item == null ? 'Question' : (widget.item?.question ?? '')
+                    ),
+                    const SizedBox(height: 16,),
+                    buildTextFormField(
+                      controller: formHandler.answer,
+                      hintText: widget.item == null ? 'Answer' : (widget.item?.answer ?? ''),
+                      labelText: widget.item == null ? 'Answer' : (widget.item?.answer ?? '')
+                    ),
+                  ]
+                ),
+              )
             ],
           ),
-          
         ),
+      ),
     );
   }
 
